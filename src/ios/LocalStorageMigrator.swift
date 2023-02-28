@@ -1,20 +1,21 @@
 import Foundation
 import SQLite3
 
-final class LocalStorageMigrator: CDVPlugin {
+struct LocalStorageMigrator {
     private let logTag = "\nLocal Storage Migration"
     
     private let fileManager = FileManager.default
-    
-    override func pluginInitialize() {
-        super.pluginInitialize()
-        
-        print("\(logTag) pluginInitialize()")
-        
-        try? migrate()
+
+    // TODO: Review this
+    private let userDefaults: UserDefaults
+
+    // TODO: Review this
+    init(userDefaults: UserDefaults) {
+        self.userDefaults = userDefaults
     }
-    
-    private func migrate() throws {
+
+    // TODO: Call migrator inside the plugin
+    func run() throws {
         // Path to the database file
         let dbPath = try databaseFilePath()
         
@@ -107,6 +108,8 @@ extension LocalStorageMigrator {
                     let key = String(cString: sqlite3_column_text(stmt, 0))
                     
                     // Skip the keys without "rapid-" prefix, WE DON'T CARE ABOUT THEM!!!
+                    // TODO: Maybe do a shared method to have same logic for native storage plugin
+                    // for checking has this prefix
                     guard key.hasPrefix("rapid-") else { continue }
                     
                     // Get value as String
@@ -136,7 +139,13 @@ extension LocalStorageMigrator {
     
     private func saveToNativeStorage(key: String, value: String) {
         print("\(logTag) Saving \(value) for key: \(key) into user defaults")
-        // plugin.savetouserdefaults()
+
+        // TODO: Improve typing of the value
+        /// Aaron provided list of keys with expected types of the value
+        /// Maybe we can have mapping of those keys and the expected type
+        /// Use that as the logic of given a key, try to typecast the value to target type
+        /// or something like that.
+        userDefaults.set(value, forKey: key)
     }
 }
 
