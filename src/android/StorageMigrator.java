@@ -118,10 +118,10 @@ public class StorageMigrator {
         Log.d(TAG, "\tWriting key:" + key + " value: " + value.substring(0, Math.min(valueStr.length(), 56)));
         switch (type) {
             case NUMBER:
-                editor.putFloat(key, Float.valueOf(value));
+                editor.putFloat(key, Float.parseFloat(value));
                 break;
             case BOOLEAN:
-                editor.putBoolean(key, Boolean.valueOf(value));
+                editor.putBoolean(key, Boolean.parseBoolean(value));
                 break;
             case STRING:
             case OBJECT:
