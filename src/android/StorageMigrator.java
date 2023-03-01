@@ -114,6 +114,10 @@ public class StorageMigrator {
         return keyStr.equals("VERSION");
     }
 
+    private Boolean isUsername(String key) {
+        return key.startsWith("rapid-rma-cognito-device-key");
+    }
+
     private void writeToNativeStorage(String key, String value, ValueType type, SharedPreferences.Editor editor) {
         Log.d(TAG, "\tWriting key:" + key + " value: " + value.substring(0, Math.min(valueStr.length(), 56)));
         switch (type) {
@@ -139,7 +143,10 @@ public class StorageMigrator {
             String key   = entry.getKey();
             String value = entry.getValue();
 
-            if(!CONVERSION_MAP.containsKey(key)) {
+            // If the key isn't in the CONVERSION_MAP or if it doesn't partial match the key
+            // string skip writing this entry to the native storage 
+            if(!CONVERSION_MAP.containsKey(key) && !isUsername(key)) {
+                Log.v(TAG, "commitToNativeStorage: skipping key: " + key)
                 continue;
             }
 
