@@ -57,29 +57,47 @@ extension LocalStorageMigrator {
         #endif
 
         // Append "WebsiteData/Default" to the path
-        dbPath.appendPathComponent("WebsiteData/Default")
+        dbPath.appendPathComponent("WebsiteData")
+        
+        if #available(iOS 16.0, *) {
+            // iOS 16+
+            try appendPathForiOS16(baseURL: &dbPath)
+        } else {
+            // iOS 14 & 15
+            appendPathForiOS1415(baseURL: &dbPath)
+        }
+        
+        return dbPath
+    }
+    
+    private func appendPathForiOS16(baseURL: inout URL) throws {
+        baseURL.appendPathComponent("Default")
         
         // There are a couple of intermediate folders names encrypted from salt
         // which we can't decrypt. Since this is the only folder under "Default",
         // we look for the first folder under this path and use the folder name
         // for further database path construction.
         guard let targetFolderName = try fileManager
-            .contentsOfDirectory(atPath: dbPath.relativePath)
+            .contentsOfDirectory(atPath: baseURL.relativePath)
             .first(where: { content in
-                dbPath.appendingPathComponent(content).isDirectory
+                baseURL.appendingPathComponent(content).isDirectory
             })
         else {
             print("\(logTag) Failed to find the cordova salted intermediate directory")
             throw LocalStorageMigrationError.intermediateDirectoryNotFound
         }
         
-        dbPath
+        baseURL
             .appendPathComponent(
                 "\(targetFolderName)/\(targetFolderName)/LocalStorage/localstorage.sqlite3"
             )
-        print("\(logTag) Database file path \(dbPath)")
+        print("\(logTag) Database file path iOS16 \(baseURL)")
+    }
+    
+    private func appendPathForiOS1415(baseURL: inout URL) {
+        baseURL.appendPathComponent("LocalStorage/ionic_app_0.localstorage")
         
-        return dbPath
+        print("\(logTag) Database file path iOS14 or iOS15 \(baseURL)")
     }
     
     private func performMigration(dbPath: URL) throws {
