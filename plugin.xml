@@ -23,11 +23,12 @@
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="NativeStorage">
                 <param name="android-package" value="NativeStorage"/>
+                <param name="onload" value="true"/>
             </feature>
         </config-file>
         <source-file src="src/android/NativeStorage.java" target-dir="src/" />
-        <source-file src="src/android/Crypto.java" cdgit-dir="src/" />
-        <source-file src="src/android/MigrateStorage.java" cdgit-dir="src/" />
+        <source-file src="src/android/Crypto.java" target-dir="src/" />
+        <source-file src="src/android/MigrateStorage.java" target-dir="src/" />
         <framework src="src/android/migrate-storage.gradle" custom="true" type="gradleReference"/>
     </platform>
 
