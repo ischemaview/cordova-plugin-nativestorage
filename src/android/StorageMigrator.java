@@ -59,7 +59,7 @@ public class StorageMigrator {
         return this.getWebViewRootPath(cordova) + "/Default/Local Storage";
     }
 
-    Map<String, String> getLocalStorageData(CordovaInterface cordova) throws LevelDBException {
+    private Map<String, String> getLocalStorageData(CordovaInterface cordova) throws LevelDBException {
         Log.d(TAG, "getLocalStorageData: get localStorage data..");
 
         String levelDbPath = this.getLocalStorageRootPath(cordova) + "/leveldb";
