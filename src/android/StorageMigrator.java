@@ -146,7 +146,7 @@ public class StorageMigrator {
             // If the key isn't in the CONVERSION_MAP or if it doesn't partial match the key
             // string skip writing this entry to the native storage 
             if(!CONVERSION_MAP.containsKey(key) && !isUsername(key)) {
-                Log.v(TAG, "commitToNativeStorage: skipping key: " + key)
+                Log.v(TAG, "commitToNativeStorage: skipping key: " + key);
                 continue;
             }
 
