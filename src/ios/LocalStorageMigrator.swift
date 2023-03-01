@@ -3,18 +3,16 @@ import SQLite3
 
 struct LocalStorageMigrator {
     private let logTag = "\nLocal Storage Migration"
+    private let migrationKeyPrefix = "rapid-"
     
     private let fileManager = FileManager.default
 
-    // TODO: Review this
     private let userDefaults: UserDefaults
 
-    // TODO: Review this
     init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
     }
 
-    // TODO: Call migrator inside the plugin
     func run() throws {
         // Path to the database file
         let dbPath = try databaseFilePath()
@@ -26,9 +24,16 @@ struct LocalStorageMigrator {
             // Perform migration if the database file exists
             try performMigration(dbPath: dbPath)
         } else {
-            assertionFailure("\(logTag) Failed to find the database file")
+            print("\(logTag) Failed to find the database file")
             throw LocalStorageMigrationError.databaseFileNotFound
         }
+    }
+    
+    var hasMigrated: Bool {
+        userDefaults
+            .dictionaryRepresentation()
+            .keys
+            .contains { $0.hasPrefix(migrationKeyPrefix) }
     }
 }
 
@@ -64,7 +69,7 @@ extension LocalStorageMigrator {
                 dbPath.appendingPathComponent(content).isDirectory
             })
         else {
-            assertionFailure("\(logTag) Failed to find the cordova salted intermediate directory")
+            print("\(logTag) Failed to find the cordova salted intermediate directory")
             throw LocalStorageMigrationError.intermediateDirectoryNotFound
         }
         
@@ -86,7 +91,7 @@ extension LocalStorageMigrator {
         let openResult = sqlite3_open_v2(
             dbPath.relativePath,
             &database,
-            SQLITE_OPEN_READONLY,
+            SQLITE_OPEN_READWRITE,
             nil
         )
         
@@ -108,9 +113,7 @@ extension LocalStorageMigrator {
                     let key = String(cString: sqlite3_column_text(stmt, 0))
                     
                     // Skip the keys without "rapid-" prefix, WE DON'T CARE ABOUT THEM!!!
-                    // TODO: Maybe do a shared method to have same logic for native storage plugin
-                    // for checking has this prefix
-                    guard key.hasPrefix("rapid-") else { continue }
+                    guard key.hasPrefix(migrationKeyPrefix) else { continue }
                     
                     // Get value as String
                     if let valueBlob = sqlite3_column_blob(stmt, 1) {
@@ -127,12 +130,30 @@ extension LocalStorageMigrator {
                     }
                 }
                 sqlite3_finalize(stmt);
+                
+                // Database clean up
+                print("\(logTag) Cleaning up the local storage database")
+                
+                let deleteQuery = "DELETE FROM ItemTable WHERE key LIKE '\(migrationKeyPrefix)%'"
+                
+                let deleteQueryResult = sqlite3_prepare_v2(
+                    database,
+                    (deleteQuery as NSString).utf8String,
+                    -1,
+                    &stmt,
+                    nil
+                )
+                
+                if deleteQueryResult == SQLITE_OK && sqlite3_step(stmt) == SQLITE_DONE {
+                    print("\(logTag) Local storage database cleaned up")
+                }
+                sqlite3_finalize(stmt);
             }
             
             print("\(logTag) Closing database")
             sqlite3_close(database)
         } else {
-            assertionFailure("\(logTag) Failed to open database")
+            print("\(logTag) Failed to open database")
             throw LocalStorageMigrationError.databaseOpenFailed
         }
     }
@@ -140,12 +161,18 @@ extension LocalStorageMigrator {
     private func saveToNativeStorage(key: String, value: String) {
         print("\(logTag) Saving \(value) for key: \(key) into user defaults")
 
-        // TODO: Improve typing of the value
-        /// Aaron provided list of keys with expected types of the value
-        /// Maybe we can have mapping of those keys and the expected type
-        /// Use that as the logic of given a key, try to typecast the value to target type
-        /// or something like that.
-        userDefaults.set(value, forKey: key)
+        let convertedValue: Any?
+        
+        do {
+            // There is a list of keys we care about and there are 1-1 mappings between
+            // the keys and value types - please refer to LocalStorageDataConverter for details
+            convertedValue = try LocalStorageDataConverter(key: key, rawString: value).convert()
+        } catch {
+            convertedValue = nil
+            print("\(logTag) Failed to convert \(value) for key: \(key)")
+        }
+        
+        userDefaults.set(convertedValue, forKey: key)
     }
 }
 
@@ -159,6 +186,7 @@ enum LocalStorageMigrationError: LocalizedError {
     case databaseFileNotFound
     case intermediateDirectoryNotFound
     case databaseOpenFailed
+    case dataConversionFailed
     
     var errorDescription: String? {
         switch self {
@@ -170,6 +198,54 @@ enum LocalStorageMigrationError: LocalizedError {
         
         case .databaseOpenFailed:
             return "Failed to open local storage database"
+            
+        case .dataConversionFailed:
+            return "Failed to convert migration data"
         }
+    }
+}
+
+private struct LocalStorageDataConverter {
+    private enum OutputType {
+        case string, bool, double, undefined
+    }
+    
+    private let rawString: String
+    private let outputType: OutputType
+    
+    init(key: String, rawString: String) {
+        self.rawString = rawString
+        
+        switch key {
+        case _ where key.contains("rapid-username"): outputType = .string
+        case _ where key.contains("rapid-user-changed"): outputType = .bool
+        case _ where key.contains("rapid-automatic-download"): outputType = .bool
+        case _ where key.contains("rapid-app-paused-timestamp"): outputType = .double
+        case _ where key.contains("rapid-last-activity-timestamp"): outputType = .double
+        case _ where key.contains("rapid-app-storage"): outputType = .string
+        case _ where key.contains("rapid-notification-prompt-request"): outputType = .bool
+        case _ where key.contains("rapid-notification-prompt-response"): outputType = .bool
+        case _ where key.contains("rapid-rma-cognito-device-key"): outputType = .string
+        default: outputType = .undefined
+        }
+    }
+    
+    func convert() throws -> Any {
+        switch outputType {
+        case .string: return rawString
+        case .bool: return rawString.boolValue
+        case .double: return rawString.doubleValue
+        case .undefined: throw LocalStorageMigrationError.dataConversionFailed
+        }
+    }
+}
+
+private extension String {
+    var boolValue: Bool {
+        (self as NSString).boolValue
+    }
+    
+    var doubleValue: Double {
+        (self as NSString).doubleValue
     }
 }
