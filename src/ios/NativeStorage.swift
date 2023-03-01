@@ -23,12 +23,13 @@ final class NativeStorage: CDVPlugin {
         /// It means that the migration has been done in the past.
         let targetUserDefaults = getUserDefault()
         let migrator = LocalStorageMigrator(userDefaults: targetUserDefaults)
-        
+
         if !migrator.hasMigrated {
             do {
                 try migrator.run()
             } catch {
-                commandDelegate.evalJs("console.log(\(error.localizedDescription)")
+                print("\(migrator.logTag) \(error.localizedDescription)")
+                commandDelegate.evalJs("console.log([\(NSStringFromClass(Self.self))] \(error.localizedDescription)")
             }
         }
 
@@ -232,9 +233,6 @@ final class NativeStorage: CDVPlugin {
     func setItem(_ command: CDVInvokedUrlCommand) {
         self.commandDelegate.run(inBackground: { [unowned self] in
             let pluginResult: CDVPluginResult
-            let reference = command.arguments[0] as? String
-            let item = command.arguments[1]
-
             if let reference = command.arguments[0] as? String,
                let aString = command.arguments[1] as? String {
                 let defaults = self.getUserDefault()
