@@ -175,7 +175,7 @@ public class StorageMigrator {
             Log.d(TAG, "migrate: hasMigrated() return true");
             return true;
         }
-        Log.d(TAG, "migrate: hasMigrated() return true, starting migration");
+        Log.d(TAG, "migrate: hasMigrated() return false, starting migration");
 
         return migrateDataFromLocalStorage();
     }
