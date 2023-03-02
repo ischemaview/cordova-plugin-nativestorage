@@ -29,7 +29,7 @@ public class StorageMigrator {
         OBJECT,
     }
 
-    public StorageMigrator(CordovaInterface cordova, SharedPreferences sharedPref, SharedPreferences.Editor editor) {        
+    public StorageMigrator(CordovaInterface cordova, SharedPreferences sharedPref, SharedPreferences.Editor editor) {
         CONVERSION_MAP = new HashMap<>();
         CONVERSION_MAP.put("rapid-username", ValueType.STRING);
         CONVERSION_MAP.put("rapid-user-changed", ValueType.BOOLEAN);
@@ -119,7 +119,7 @@ public class StorageMigrator {
     }
 
     private void writeToNativeStorage(String key, String value, ValueType type, SharedPreferences.Editor editor) {
-        Log.d(TAG, "\tWriting key:" + key + " value: " + value.substring(0, Math.min(valueStr.length(), 56)));
+        Log.d(TAG, "\tWriting key:" + key + " value: " + value.substring(0, Math.min(value.length(), 56)));
         switch (type) {
             case NUMBER:
                 editor.putFloat(key, Float.parseFloat(value));
@@ -144,7 +144,7 @@ public class StorageMigrator {
             String value = entry.getValue();
 
             // If the key isn't in the CONVERSION_MAP or if it doesn't partial match the key
-            // string skip writing this entry to the native storage 
+            // string skip writing this entry to the native storage
             if(!CONVERSION_MAP.containsKey(key) && !isUsername(key)) {
                 Log.v(TAG, "commitToNativeStorage: skipping key: " + key);
                 continue;
@@ -157,15 +157,60 @@ public class StorageMigrator {
         Log.d(TAG, "commitToNativeStorage: Writing complete");
     }
 
+    private boolean deleteExistingKeysFromLocalStorage() throws LevelDBException {
+        Log.d(TAG, "deleteExistingKeys: cleaning existing localStorage data..");
+
+        String levelDbPath = this.getLocalStorageRootPath(cordova) + "/leveldb";
+        Log.d(TAG, "deleteExistingKeys: levelDbPath: " + levelDbPath);
+
+        File levelDbDir = new File(levelDbPath);
+
+        if(!levelDbDir.isDirectory() || !levelDbDir.exists()) {
+            Log.w(TAG, "deleteExistingKeys: '" + levelDbPath + "' is not a directory or was not found; Exiting");
+            return false;
+        }
+
+        LevelDB levelDB   = LevelDB.open(levelDbPath);
+        Iterator iterator = levelDB.iterator();
+
+        for (iterator.seekToFirst(); iterator.isValid(); iterator.next()) {
+            byte[] key      = iterator.key();
+            if(isMeta(key) || isVersion(key)) {
+                continue;
+            }
+
+            Log.d(TAG, "\tdeleting key:" + new String(key, StandardCharsets.UTF_8));
+            levelDB.del(key, true);
+        }
+
+        iterator.close(); // closing is a must!
+        levelDB.close();
+
+        Log.d(TAG, "deleteExistingKeys: cleaning existing localStorage data.. done");
+        return true;
+    }
+
     private boolean migrateDataFromLocalStorage() {
         try {
             Log.d(TAG, "migrateData: Starting migration");
 
             Map<String, String> keyValues = this.getLocalStorageData(cordova);
             commitToNativeStorage(keyValues, editor);
-            
+
+            boolean didCommit = editor.commit();
+            if(!didCommit) {
+                Log.w(TAG, "migrateData: failed to commit keyValues to stored pref");
+                return false;
+            }
+
+            boolean didDelete = deleteExistingKeysFromLocalStorage();
+            if(!didDelete) {
+                Log.w(TAG, "migrateData: failed to clean up existing local storage");
+                return false;
+            }
+
             Log.d(TAG, "migrateData: Migration completed;");
-            return editor.commit();
+            return true;
         } catch (Exception ex) {
             Log.e(TAG, "migrateData: Migration filed due to error: " + ex.getMessage());
         }
