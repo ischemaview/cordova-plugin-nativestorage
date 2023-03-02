@@ -197,7 +197,6 @@ public class StorageMigrator {
             Map<String, String> keyValues = this.getLocalStorageData(cordova);
             commitToNativeStorage(keyValues, editor);
 
-
             boolean didCommit = editor.commit();
             if(!didCommit) {
                 Log.w(TAG, "migrateData: failed to commit keyValues to stored pref");
