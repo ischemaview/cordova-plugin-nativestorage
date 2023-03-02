@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.github.hf.leveldb.Iterator;
 import com.github.hf.leveldb.LevelDB;
-import com.github.hf.leveldb.Snapshot;
 import com.github.hf.leveldb.exception.LevelDBException;
 
 import org.apache.cordova.CordovaInterface;
