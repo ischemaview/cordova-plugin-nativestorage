@@ -11,7 +11,8 @@ coverage
 dist
 
 examples/
-.idea
+.idea/
 .npmrc
-
+node_modules/
 npm-debug.log
+.DS_Store
