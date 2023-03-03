@@ -28,7 +28,6 @@ final class NativeStorage: CDVPlugin {
             do {
                 try migrator.run()
             } catch {
-                print("\(migrator.logTag) \(error.localizedDescription)")
                 commandDelegate.evalJs("console.log([\(NSStringFromClass(Self.self))] \(error.localizedDescription)")
             }
         }
@@ -45,7 +44,6 @@ final class NativeStorage: CDVPlugin {
         } else {
             pluginResult = CDVPluginResult(status: .error, messageAs: "Reference or SuiteName was null")
         }
-
         self.commandDelegate.send(pluginResult, callbackId: command.callbackId)
     }
 
