@@ -1,6 +1,21 @@
 import Foundation
 import SQLite3
 
+/**
+
+ Please read below **important** discussion.
+
+ Up to the point before the migration, Local Storage that has been used by the main web app has been interfacing using primitive string type values only.
+
+ Therefore, all values inside the local storage database should only be treated as and migrated as strings as well.
+ However, this plugin angular interface only expose only `getItem` and `setItem` which tries to get and set as JSON object type.
+ Internally, it's doing `JSON.stringify` for `setItem` and `JSON.parse` for `getItem`.
+
+ This is causing the raw string stored to be treated incorrectly, e.g. `JSON.parse("username")` would throw an error, whereas `JSON.parse("\"username\"")` would return a string `username`.
+
+ To fix this issue, we opted to migrate the values into JSON parsable values.
+ Mimicking `setItem`, we're going to stringify the string value we got so it's properly parsed by `getItem`.
+ */
 struct LocalStorageMigrator {
     private let logTag = "\nLocal Storage Migration"
     private let migrationKeyPrefix = "rapid-"
@@ -239,7 +254,7 @@ enum LocalStorageMigrationError: LocalizedError {
 
 private struct LocalStorageDataConverter {
     private enum OutputType {
-        case string, bool, double, undefined
+        case string, bool, double, object, undefined
     }
 
     private let rawString: String
@@ -254,7 +269,7 @@ private struct LocalStorageDataConverter {
         case _ where key.contains("rapid-automatic-download"): outputType = .bool
         case _ where key.contains("rapid-app-paused-timestamp"): outputType = .double
         case _ where key.contains("rapid-last-activity-timestamp"): outputType = .double
-        case _ where key.contains("rapid-app-storage"): outputType = .string
+        case _ where key.contains("rapid-app-storage"): outputType = .object
         case _ where key.contains("rapid-notification-prompt-request"): outputType = .bool
         case _ where key.contains("rapid-notification-prompt-response"): outputType = .bool
         case _ where key.contains("rapid-rma-cognito-device-key"): outputType = .string
@@ -264,10 +279,20 @@ private struct LocalStorageDataConverter {
 
     func convert() throws -> Any {
         switch outputType {
-        case .string: return rawString
-        case .bool: return rawString.boolValue
-        case .double: return rawString.doubleValue
-        case .undefined: throw LocalStorageMigrationError.dataConversionFailed
+        case .object: fallthrough
+        case .bool: fallthrough
+        case .double: fallthrough
+        case .string:
+            /// Treat everything as a string that's needed to be stringified
+            /// Read the documentation of the object for more info
+            let stringifiedData = try JSONSerialization.data(withJSONObject: rawString, options: .fragmentsAllowed)
+            guard let stringifiedString = String(data: stringifiedData, encoding: .utf8) else {
+                throw LocalStorageMigrationError.dataConversionFailed
+            }
+            return stringifiedString
+
+        case .undefined:
+            throw LocalStorageMigrationError.dataConversionFailed
         }
     }
 }
