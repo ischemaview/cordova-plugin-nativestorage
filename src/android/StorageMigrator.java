@@ -122,18 +122,21 @@ public class StorageMigrator {
         Log.d(TAG, "\tWriting key:" + key + " value: " + value.substring(0, Math.min(value.length(), 56)));
         switch (type) {
             case NUMBER:
-                editor.putFloat(key, Float.parseFloat(value));
-                break;
             case BOOLEAN:
-                editor.putBoolean(key, Boolean.parseBoolean(value));
-                break;
             case STRING:
             case OBJECT:
-                editor.putString(key, value);
+                try {
+                    // Mimicking `setItem` that calls `JSON.stringify(value)`
+                    JSONObject object = new JSONObject(value);
+                    editor.putString(key, object.toString());
+                } catch (JSONException e) {
+                    Log.e(TAG, e.getMessage());
+                }
                 break;
+            default:
+                Log.e(TAG, "writeToNativeStorage: Unhandled type: " + type.name());
         }
         Log.d(TAG, "\tDone");
-
     }
 
     private void commitToNativeStorage(Map<String, String> keyValues, SharedPreferences.Editor editor) {
