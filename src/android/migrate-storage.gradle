@@ -2,9 +2,9 @@ repositories {
 
         maven {
             name = "NexusPackages"
-            url = uri("https://nexus.infrastructure.rapid-sys.com/leveldb-android/")
+            url = uri("https://nexus.infrastructure.rapid-sys.com/repository/leveldb-android/")
         }
 }
 dependencies {
-    implementation 'com.github.ischemaview:leveldb:1.19.6'
+    implementation 'com.github.ischemaview:leveldb:1.19.9'
 }
