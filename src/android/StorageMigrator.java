@@ -6,6 +6,8 @@ import com.github.hf.leveldb.Iterator;
 import com.github.hf.leveldb.LevelDB;
 import com.github.hf.leveldb.exception.LevelDBException;
 
+import org.json.JSONObject;
+import org.json.JSONException;
 import org.apache.cordova.CordovaInterface;
 
 import java.io.File;
