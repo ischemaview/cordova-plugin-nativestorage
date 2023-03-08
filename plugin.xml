@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="cordova-plugin-nativestorage"
+    id="ischemaview-cordova-plugin-nativestorage"
     version="2.3.2">
     <name>NativeStorage</name>
     <description>Native storage of variables in Android and iOS</description>

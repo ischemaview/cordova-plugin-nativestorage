@@ -1,11 +1,11 @@
 # Cordova plugin NativeStorage
 
-[![npm version](https://badge.fury.io/js/cordova-plugin-nativestorage.svg)](https://badge.fury.io/js/cordova-plugin-nativestorage) [![Build Status](https://travis-ci.org/TheCocoaProject/cordova-plugin-nativestorage.svg?branch=master)](https://travis-ci.org/TheCocoaProject/cordova-plugin-nativestorage)  [![Known Vulnerabilities](https://snyk.io/test/npm/cordova-plugin-nativestorage/badge.svg)](https://snyk.io/test/npm/cordova-plugin-nativestorage)
+[![npm version](https://badge.fury.io/js/ischemaview-cordova-plugin-nativestorage.svg)](https://badge.fury.io/js/ischemaview-cordova-plugin-nativestorage) [![Build Status](https://travis-ci.org/TheCocoaProject/ischemaview-cordova-plugin-nativestorage.svg?branch=master)](https://travis-ci.org/TheCocoaProject/ischemaview-cordova-plugin-nativestorage)  [![Known Vulnerabilities](https://snyk.io/test/npm/ischemaview-cordova-plugin-nativestorage/badge.svg)](https://snyk.io/test/npm/ischemaview-cordova-plugin-nativestorage)
 
 
-[![NPM](https://nodei.co/npm/cordova-plugin-nativestorage.png?downloads=true&downloadRank=true)](https://nodei.co/npm/cordova-plugin-nativestorage/)
+[![NPM](https://nodei.co/npm/ischemaview-cordova-plugin-nativestorage.png?downloads=true&downloadRank=true)](https://nodei.co/npm/ischemaview-cordova-plugin-nativestorage/)
 
-Join the chat for questions and updates [![Join the chat at https://gitter.im/TheCocoaProject/cordova-plugin-nativestorage](https://badges.gitter.im/TheCocoaProject/cordova-plugin-nativestorage.svg)](https://gitter.im/TheCocoaProject/cordova-plugin-nativestorage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Join the chat for questions and updates [![Join the chat at https://gitter.im/TheCocoaProject/ischemaview-cordova-plugin-nativestorage](https://badges.gitter.im/TheCocoaProject/ischemaview-cordova-plugin-nativestorage.svg)](https://gitter.im/TheCocoaProject/ischemaview-cordova-plugin-nativestorage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 *** 
 
@@ -15,7 +15,7 @@ Cite this plugin:
 author =   {Gilles Callebaut and Alok Rajiv},
 title =    {{NativeStorage - A Cordova Plugin}},
 doi = {10.5281/zenodo.1312615},
-howpublished = {\url{https://github.com/TheCocoaProject/cordova-plugin-nativestorage}},
+howpublished = {\url{https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage}},
 }
 ```
 
@@ -23,17 +23,17 @@ You can also provide a `version` field to include a version number e.g., `versio
 
 ***
 
-#### :) As per [npm-stat](https://npm-stat.com/charts.html?package=cordova-plugin-nativestorage&from=2016-04-01) we just crossed 150k downloads!! Thanks to everyone who helped and to everyone who have send in their kind words!
+#### :) As per [npm-stat](https://npm-stat.com/charts.html?package=ischemaview-cordova-plugin-nativestorage&from=2016-04-01) we just crossed 150k downloads!! Thanks to everyone who helped and to everyone who have send in their kind words!
 
 NEW: Windows and OS X is supported!
 UPDATE: The Plugin can now also be found at the [Telerik Plugin Market](http://plugins.telerik.com/cordova/plugin/nativestorage).
 
-Documentation about the API prior to v2 can be found at the [wiki](https://github.com/TheCocoaProject/cordova-plugin-nativestorage/wiki/Usage-API-(prior-to-v2.0.0))
+Documentation about the API prior to v2 can be found at the [wiki](https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage/wiki/Usage-API-(prior-to-v2.0.0))
 ***
 
 The plugin was created and developed by [Gilles Callebaut](https://be.linkedin.com/in/gilles-callebaut-46a751104), in the scope of an [IWT/VlAIO](http://www.vlaio.be/english) Tetra project [CrossMoS](https://www.msec.be/crossmos/) which assesses Mobile Cross-Platform Tools. This wouldn't be possible without the contributions of [Alok Rajiv](https://github.com/alokrajiv), our Cordova and JavaScript guru.
 
-Please consider reading our [wiki](https://github.com/TheCocoaProject/cordova-plugin-nativestorage/wiki) for more documentation about this plugin.
+Please consider reading our [wiki](https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage/wiki) for more documentation about this plugin.
 
 ## Contents
 - [Why the need for this plugin?](#why)
@@ -75,7 +75,7 @@ Some complaints:
 - **Persistence**: Save data over multiple sessions, i.e. holds the data till the application is removed from the device
 - **Small data**: Store small amounts of persistent data (less than a few hundred kilobytes)
 	* It is possible to store more than a few megabytes, but that's not the intended usage of the plugin.
-	* See issue [#31](https://github.com/TheCocoaProject/cordova-plugin-nativestorage/issues/31) for a more 'in-depth' explanation of size limit.
+	* See issue [#31](https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage/issues/31) for a more 'in-depth' explanation of size limit.
 
 #### Examples
 Storage of:
@@ -97,11 +97,11 @@ The plugin can be installed via the Cordova command line interface:
 * Navigate to the root folder for your Cordova/Phonegap/Ionic project.
 * Run the command:
 ```sh
-cordova plugin add cordova-plugin-nativestorage
+cordova plugin add ischemaview-cordova-plugin-nativestorage
 ```
 or through this git repo if you want to be running the development version:
 ```sh
-cordova plugin add https://github.com/TheCocoaProject/cordova-plugin-nativestorage
+cordova plugin add https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage
 ```
 
 If you're using ngCordova you can use the ngCordova-wrapper:
@@ -115,23 +115,23 @@ For more information about the usage of the plugin check the repo for the [ngCor
 ### <a name="reinstalling_dev"></a>Reinstalling/installing developer version
 Remove the plugin from the current project:
 ```sh
-cordova plugin remove cordova-plugin-nativestorage
+cordova plugin remove ischemaview-cordova-plugin-nativestorage
 ```
 Install the developer version from Github:
 ```sh
-cordova plugin add https://github.com/TheCocoaProject/cordova-plugin-nativestorage
+cordova plugin add https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage
 ```
 
 ## <a name="supported_platforms"></a>Supported platforms
 - Android
 - iOS
 - Browser (for testing purposes)
-- Windows (thanks to Christian Helbig see [PR](https://github.com/TheCocoaProject/cordova-plugin-nativestorage/pull/38))
-- OS X (thanks to [Javier Ribó](https://github.com/elribonazo) see [PR](https://github.com/TheCocoaProject/cordova-plugin-nativestorage/pull/58))
+- Windows (thanks to Christian Helbig see [PR](https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage/pull/38))
+- OS X (thanks to [Javier Ribó](https://github.com/elribonazo) see [PR](https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage/pull/58))
 
 ## <a name="supported_frameworks"></a>Supported frameworks
-- [vanilla Cordova](https://www.npmjs.com/package/cordova-plugin-nativestorage)
-- [Cordova 3.9.2](https://github.com/GillesC/cordova-plugin-nativestorage-3.9.2-compatible) and previous versions
+- [vanilla Cordova](https://www.npmjs.com/package/ischemaview-cordova-plugin-nativestorage)
+- [Cordova 3.9.2](https://github.com/GillesC/ischemaview-cordova-plugin-nativestorage-3.9.2-compatible) and previous versions
 - [Ionic](http://ionicframework.com/docs/v2/native/nativestorage/)
 - [ngCordova](https://github.com/TheCocoaProject/ngcordova-wrapper-nativestorage) (not all functions are yet supported)
 
@@ -139,7 +139,7 @@ cordova plugin add https://github.com/TheCocoaProject/cordova-plugin-nativestora
 The parameter of the success-callback function will be the saved or retrieved value, the error-callback will specify the occurred error.
 
 ### <a name="supported_data_types"></a>Supported data types
-As of version v2.0 all data types that can be stringified can be stored with the `setItem` and `getItem` method, see [storing values](#storing_values). A more fine grained storage method is also provided. These methods can be used to store type-specific data types, see [API prior to v2](https://github.com/TheCocoaProject/cordova-plugin-nativestorage/wiki/Usage-API-(prior-to-v2.0.0)).
+As of version v2.0 all data types that can be stringified can be stored with the `setItem` and `getItem` method, see [storing values](#storing_values). A more fine grained storage method is also provided. These methods can be used to store type-specific data types, see [API prior to v2](https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage/wiki/Usage-API-(prior-to-v2.0.0)).
 
 ### <a name="storing_values"></a>Storing values
 ```javascript
@@ -239,16 +239,16 @@ app.controller('myCtrl', function ($ionicPlatform, $scope, $cordovaNativeStorage
 ```
 
 ### <a name="demo_example"></a>Demo Example
-A demo application can be found at `cordova-plugin-nativestorage/examples/demo`. This application will save a String when the SAVE (`btn_load`) is pushed. This String is the value which has been typed in the input field (`data_input`). When the LOAD button is pressed, the value is shown by means of an alert message.
+A demo application can be found at `ischemaview-cordova-plugin-nativestorage/examples/demo`. This application will save a String when the SAVE (`btn_load`) is pushed. This String is the value which has been typed in the input field (`data_input`). When the LOAD button is pressed, the value is shown by means of an alert message.
 
 #### Installation
 * Cloning the repo to a local dir
 ```sh
-git clone https://github.com/GillesC/cordova-plugin-nativestorage.git
+git clone https://github.com/GillesC/ischemaview-cordova-plugin-nativestorage.git
 ```
 * Navigating to the demo dir
 ```sh
-cd cordova-plugin-nativestorage/examples/demo/
+cd ischemaview-cordova-plugin-nativestorage/examples/demo/
 ```
 * Adding target platforms
 ```sh
@@ -259,12 +259,12 @@ cordova platform add windows
 ```
 * Adding the plugin
 ```sh
-cordova plugin add cordova-plugin-nativestorage
+cordova plugin add ischemaview-cordova-plugin-nativestorage
 ```
 * For testing the plugin
 ```sh
 cordova plugin add http://git-wip-us.apache.org/repos/asf/cordova-plugin-test-framework.git
-cordova plugin add https://github.com/TheCocoaProject/cordova-plugin-nativestorage.git#:/tests
+cordova plugin add https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage.git#:/tests
 ```
 * Run or emulate the demo application
 ```sh
@@ -276,7 +276,7 @@ cordova run windows
 
 ## <a name="security"></a>Security
 Is it safe to store sensitive data via this plugin?
- - Yes and No, all stored values are only accessible by your application, which makes it safe. However, the values can be viewed when the attacker has access to your phone's password (e.g. lock-pattern) through an un-encrypted back-up on Android (if back-up is enabled) or through root-access. The latter is only possible if the phone is rooted. An extra encryption mechanism would be of value when an extra user-supplied password is used. This mode is on our [Future Track](https://github.com/TheCocoaProject/cordova-plugin-nativestorage/wiki/Future-track) list.
+ - Yes and No, all stored values are only accessible by your application, which makes it safe. However, the values can be viewed when the attacker has access to your phone's password (e.g. lock-pattern) through an un-encrypted back-up on Android (if back-up is enabled) or through root-access. The latter is only possible if the phone is rooted. An extra encryption mechanism would be of value when an extra user-supplied password is used. This mode is on our [Future Track](https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage/wiki/Future-track) list.
 
 ## <a name="errors"></a>Errors
 Error object contains:
@@ -317,21 +317,21 @@ If you have code issues, things not related to a bug of the plugin please consid
 - Is data persistent between app updates?
 	* Yes. The data should persistent till the app has been deleted from the device. This because the plugin uses `Sharedpreferences` in Android and `NSUserDefaults` in iOS.
 - Oh no my stored data is not cleared after reinstalling my application. How do I resolve this 'issue'?
-	* You need to set `android:allowBackup=false` in the application tag of AndroidManifest.xml. More information at [this issue](https://github.com/TheCocoaProject/cordova-plugin-nativestorage/issues/57) and [this StackOverflow question](http://stackoverflow.com/questions/42538421/ionic-nativestorage-not-clear-when-reinstal-application-release).
+	* You need to set `android:allowBackup=false` in the application tag of AndroidManifest.xml. More information at [this issue](https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage/issues/57) and [this StackOverflow question](http://stackoverflow.com/questions/42538421/ionic-nativestorage-not-clear-when-reinstal-application-release).
 - What database are you using and why?
 	* None. The plugin uses `Sharedpreferences` in Android and `NSUserDefaults` in iOS. These strategies are designed for storing data quick and easy. See the [usage of the plugin](#when) for more info about DB vs NativeStorage.
 - Is it possible to save images and audio with the plugin?
 	* Yes. If you could stringify the data. Should I save imaged and audio is a different question. If the provided data isn't large and there isn't need to store a large amount of it, it will be OK.  See the [usage of the plugin](#when) for more info about storing large data with the plugin.
 - Is there a forum where people interested in the plugin could discuss issues like this?
 	* Yes
-		- See our own [issues page](https://github.com/TheCocoaProject/cordova-plugin-nativestorage/issues)
-		- Check out our [chat](https://gitter.im/TheCocoaProject/cordova-plugin-nativestorage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) on Gitter
+		- See our own [issues page](https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage/issues)
+		- Check out our [chat](https://gitter.im/TheCocoaProject/ischemaview-cordova-plugin-nativestorage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) on Gitter
 - Can I access the saved value in Android?
-	* Yes, check out [this thread](http://stackoverflow.com/questions/39159754/how-get-data-from-cordova-plugin-nativestorage-in-android-java/39269620#39269620) on StackOverflow. Or see [this issue](https://github.com/TheCocoaProject/cordova-plugin-nativestorage/issues/53) on Github.
+	* Yes, check out [this thread](http://stackoverflow.com/questions/39159754/how-get-data-from-ischemaview-cordova-plugin-nativestorage-in-android-java/39269620#39269620) on StackOverflow. Or see [this issue](https://github.com/TheCocoaProject/ischemaview-cordova-plugin-nativestorage/issues/53) on Github.
 - Can I access saved values in JavaScript?
 	* Yes, see [this thread](http://stackoverflow.com/questions/25657749/cordova-plugin-expose-js-variable-android-cardflight/39331899#39331899) on StackOverflow.
 - Does this plugin supports Cordova 3.9.2?
-	* Yes, look at [this fork](cordova-plugin-nativestorage-3.9.2-compatible)
+	* Yes, look at [this fork](ischemaview-cordova-plugin-nativestorage-3.9.2-compatible)
 
 
 ## <a name="applications"></a>Applications using this plugin
