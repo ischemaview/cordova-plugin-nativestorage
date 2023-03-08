@@ -14,7 +14,7 @@
     }
   ],
   "cordova": {
-    "id": "cordova-plugin-nativestorage",
+    "id": "ischemaview-cordova-plugin-nativestorage",
     "platforms": [
       "android",
       "ios",
@@ -25,7 +25,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ischemaview/cordova-plugin-nativestorage"
+    "url": "https://github.com/ischemaview/ischemaview-cordova-plugin-nativestorage"
   },
   "publishConfig": {
     "registry": "https://nexus.infrastructure.rapid-sys.com/repository/npm-internal/"
@@ -52,7 +52,7 @@
     "jshint": "^2.9.1"
   },
   "bugs": {
-    "url": "https://github.com/ischemaview/cordova-plugin-nativestorage"
+    "url": "https://github.com/ischemaview/ischemaview-cordova-plugin-nativestorage"
   },
-  "homepage": "https://github.com/ischemaview/cordova-plugin-nativestorage#README.md"
+  "homepage": "https://github.com/ischemaview/ischemaview-cordova-plugin-nativestorage#README.md"
 }
