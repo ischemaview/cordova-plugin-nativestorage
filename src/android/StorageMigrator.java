@@ -127,13 +127,9 @@ public class StorageMigrator {
             case BOOLEAN:
             case STRING:
             case OBJECT:
-                try {
-                    // Mimicking `setItem` that calls `JSON.stringify(value)`
-                    JSONObject object = new JSONObject(value);
-                    editor.putString(key, object.toString());
-                } catch (JSONException e) {
-                    Log.e(TAG, e.getMessage());
-                }
+                String newValue = value.replaceAll( "\"", "\\\\\"");
+                newValue = "\"" + newValue + "\"";
+                editor.putString(key, newValue);
                 break;
             default:
                 Log.e(TAG, "writeToNativeStorage: Unhandled type: " + type.name());
@@ -156,6 +152,7 @@ public class StorageMigrator {
             }
 
             ValueType valueType = CONVERSION_MAP.get(key);
+            valueType = valueType != null ? valueType : ValueType.STRING;
             writeToNativeStorage(key, value, valueType, editor);
         }
 
