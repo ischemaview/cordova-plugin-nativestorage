@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="ischemaview-cordova-plugin-nativestorage"
-    version="2.4.2">
+    version="2.4.3-no-migrate.0">
     <name>NativeStorage</name>
     <description>Native storage of variables in Android and iOS</description>
     <license>Apache 2.0</license>
@@ -28,8 +28,6 @@
         </config-file>
         <source-file src="src/android/NativeStorage.java" target-dir="src/" />
         <source-file src="src/android/Crypto.java" target-dir="src/" />
-        <source-file src="src/android/StorageMigrator.java" target-dir="src/" />
-        <framework src="src/android/migrate-storage.gradle" custom="true" type="gradleReference"/>
     </platform>
 
 
@@ -42,7 +40,6 @@
             </feature>
         </config-file>
         <source-file src="src/ios/NativeStorage.swift"/>
-        <source-file src="src/ios/LocalStorageMigrator.swift"/>
         <dependency id="cordova-plugin-add-swift-support" version="2.0.2"/>
     </platform>
 

@@ -39,8 +39,6 @@ public class NativeStorage extends CordovaPlugin {
         sharedPref = cordova.getActivity().getSharedPreferences(PREFS_NAME, Activity.MODE_PRIVATE);
         editor = sharedPref.edit();
 
-        StorageMigrator migrateStorage = new StorageMigrator(cordova, sharedPref, editor);
-        migrateStorage.migrate();
     }
 
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {

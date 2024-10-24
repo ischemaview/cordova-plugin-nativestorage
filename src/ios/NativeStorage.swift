@@ -17,22 +17,6 @@ final class NativeStorage: CDVPlugin {
 
         /// Maintaining default `NativeStorage` suite name as a default groups user defaults
         self.suiteName = Self.defaultSuiteName
-
-        /// Check if migration is needed.
-        /// If `targetUserDefaults` already contains any key with "rapid-" prefix,
-        /// It means that the migration has been done in the past.
-        let targetUserDefaults = getUserDefault()
-        let migrator = LocalStorageMigrator(userDefaults: targetUserDefaults)
-
-        if !migrator.hasMigrated {
-            do {
-                try migrator.run()
-            } catch {
-                commandDelegate.evalJs("console.log([\(NSStringFromClass(Self.self))] \(error.localizedDescription)")
-            }
-        }
-
-        print("User default values: \n\(targetUserDefaults.dictionaryRepresentation())")
     }
 
     @objc
